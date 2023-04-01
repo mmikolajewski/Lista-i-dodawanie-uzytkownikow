@@ -7,16 +7,18 @@ import java.util.List;
 
 @Controller
 public class UsersController {
-    UsersRepository usersRepository;
+    private UsersRepository usersRepository;
 
     public UsersController(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 
-    @PostMapping("/add")
-    public String add(@RequestParam(required = false) String firstName, @RequestParam String lastName, @RequestParam Integer age) {
+    @RequestMapping("/add")
+    public String add(@RequestParam(required = false) String firstName,
+                      @RequestParam String lastName,
+                      @RequestParam(required = false, defaultValue = "0") Integer age) {
 
-        if (firstName.trim().equals("") || age < 0) {
+        if (firstName == null || firstName.equals("") || age <= 0) {
             return "redirect:/err.html";
         } else {
             User user = new User(firstName, lastName, age);
